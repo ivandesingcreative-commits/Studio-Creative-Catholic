@@ -32,6 +32,17 @@ jobs:
       run: |
         echo "GEMINI_API_KEY=dummy_key_for_compilation" > .env
 
+    - name: Reconstruir o Generar debug.keystore
+      run: |
+        if [ -f "debug.keystore.base64" ]; then
+          echo "Decodificando debug.keystore desde base64..."
+          base64 -d debug.keystore.base64 > debug.keystore || base64 --decode debug.keystore.base64 > debug.keystore || echo "Error decodificando, se creará uno nuevo"
+        fi
+        if [ ! -f "debug.keystore" ]; then
+          echo "debug.keystore no encontrado, generando nuevo keystore de depuración..."
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+        fi
+
     - name: Compilar APK en modo Depuración (Debug)
       run: ./gradlew assembleDebug
 
