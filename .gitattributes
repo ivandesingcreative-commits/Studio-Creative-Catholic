@@ -1,0 +1,19 @@
+# Detectar archivos de texto automáticamente y normalizar fines de línea a LF.
+* text=auto
+
+# Asegurar que el script ejecutable de Gradle siempre use saltos de línea LF.
+gradlew text eol=lf
+*.sh text eol=lf
+
+# Declarar explícitamente los archivos binarios para evitar cualquier corrupción en la transferencia.
+*.jar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.mp3 binary
+*.ogg binary
+*.wav binary
+*.keystore binary
+*.bin binary

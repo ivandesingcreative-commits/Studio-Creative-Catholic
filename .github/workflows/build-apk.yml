@@ -30,6 +30,10 @@ jobs:
         sed -i 's/\r$//' gradlew || true
         chmod +x gradlew || true
 
+    - name: Descargar Gradle Wrapper limpio (evita corrupción de archivos binarios en Git)
+      run: |
+        curl -sLo gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v9.3.0/gradle/wrapper/gradle-wrapper.jar || curl -sLo gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar
+
     - name: Crear archivo de variables de entorno ficticio para compilación
       run: |
         echo "GEMINI_API_KEY=dummy_key_for_compilation" > .env
