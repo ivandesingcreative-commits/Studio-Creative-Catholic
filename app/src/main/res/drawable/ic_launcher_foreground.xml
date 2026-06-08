@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Solid Gold Liturgical Cross with Elegant Serif Terminals -->
+    <path
+        android:fillColor="#C5A059"
+        android:pathData="M51,21 h6 v60 h-6 z M27,39 h54 v6 h-54 z M54,37.5 l4.5,4.5 l-4.5,4.5 l-4.5,-4.5 z M45,21 h18 v2 h-18 z M45,79 h18 v2 h-18 z M27,33.5 v17 h-2 v-17 z M81,33.5 v17 h2 v-17 z" />
+</vector>

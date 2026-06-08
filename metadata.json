@@ -1,0 +1,6 @@
+{
+  "name": "La Voz de la Tradición",
+  "description": "Podcast de profecías católicas tradicionales con narración solemne sobre el Gran Monarca y el Papa Santo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
