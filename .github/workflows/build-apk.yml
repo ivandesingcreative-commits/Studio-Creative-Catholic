@@ -25,8 +25,10 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    - name: Otorgar permisos de ejecución a Gradle
-      run: chmod +x gradlew || true
+    - name: Corregir saltos de línea (CRLF) y otorgar permisos de ejecución a Gradle
+      run: |
+        sed -i 's/\r$//' gradlew || true
+        chmod +x gradlew || true
 
     - name: Crear archivo de variables de entorno ficticio para compilación
       run: |
