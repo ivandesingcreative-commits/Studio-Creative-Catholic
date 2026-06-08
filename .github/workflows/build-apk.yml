@@ -1,0 +1,39 @@
+name: Compilar APK de la Tradición
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch: # Permite compilar manualmente desde la web de GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar el repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar Java JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Otorgar permisos de ejecución a Gradle
+      run: chmod +x gradlew || true
+
+    - name: Crear archivo de variables de entorno ficticio para compilación
+      run: |
+        echo "GEMINI_API_KEY=dummy_key_for_compilation" > .env
+
+    - name: Compilar APK en modo Depuración (Debug)
+      run: ./gradlew assembleDebug
+
+    - name: Subir Archivo APK para descargar en el celular
+      uses: actions/upload-artifact@v4
+      with:
+        name: LaVozDeLaTradicion-APK
+        path: app/build/outputs/apk/debug/app-debug.apk

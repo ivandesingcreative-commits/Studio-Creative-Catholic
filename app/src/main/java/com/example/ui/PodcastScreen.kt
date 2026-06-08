@@ -359,17 +359,53 @@ fun PlayerTab(
                 }
             }
 
+            var isLargeText by remember { mutableStateOf(false) }
+
             Divider(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), thickness = 1.dp)
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(6.dp))
+
+            // Nota explicativa del audio en navegador vs celular
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
+                ),
+                shape = RoundedCornerShape(6.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp)
+            ) {
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = "Información de audio",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Text(
+                        text = "Aviso de Audio: El emulador en la web corre en la nube y no transmite sonido. Pero al instalar este APK compilado en su celular real, los audios funcionarán perfectamente con sonido y voz nativa.",
+                        fontSize = 10.sp,
+                        lineHeight = 13.5.sp,
+                        fontFamily = FontFamily.Serif,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f),
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
 
             // Subtitle / Description of history
             Text(
                 text = currentlyPlaying.description,
                 fontFamily = FontFamily.Serif,
                 fontStyle = FontStyle.Italic,
-                fontSize = 12.5.sp,
-                lineHeight = 17.0.sp,
+                fontSize = if (isLargeText) 15.sp else 12.5.sp,
+                lineHeight = if (isLargeText) 20.sp else 17.0.sp,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -382,17 +418,44 @@ fun PlayerTab(
                     )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
-            // Real-time scrolling transcript
-            Text(
-                text = "GUION ORIGINAL DEL ORADOR",
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.Bold,
-                fontSize = 11.sp,
-                letterSpacing = 1.sp,
-                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f)
-            )
+            // Real-time scrolling transcript Header
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "GUION ORIGINAL DEL ORADOR",
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 11.sp,
+                    letterSpacing = 1.sp,
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.85f)
+                )
+
+                TextButton(
+                    onClick = { isLargeText = !isLargeText },
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
+                    modifier = Modifier.height(28.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ZoomIn,
+                        contentDescription = "Zoom",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(14.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = if (isLargeText) "Minimizar Letra" else "Agrandar Texto",
+                        fontSize = 10.sp,
+                        fontFamily = FontFamily.SansSerif,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(4.dp))
 
@@ -401,6 +464,7 @@ fun PlayerTab(
                 scriptText = currentlyPlaying.scriptText,
                 currentParagraphIndex = currentParaIdx,
                 isPlaying = voiceState is PlaybackState.Playing,
+                isLargeText = isLargeText,
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
@@ -1023,6 +1087,7 @@ fun ScrollingTranscript(
     scriptText: String,
     currentParagraphIndex: Int,
     isPlaying: Boolean,
+    isLargeText: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     val paragraphs = remember(scriptText) {
@@ -1086,8 +1151,8 @@ fun ScrollingTranscript(
                 Text(
                     text = paragraphs[index],
                     fontFamily = FontFamily.Serif,
-                    fontSize = 13.5.sp,
-                    lineHeight = 19.5.sp,
+                    fontSize = if (isLargeText) 17.5.sp else 13.5.sp,
+                    lineHeight = if (isLargeText) 23.5.sp else 19.5.sp,
                     fontWeight = if (isCurrent) FontWeight.SemiBold else FontWeight.Normal,
                     color = textColor,
                 )
